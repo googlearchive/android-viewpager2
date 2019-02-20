@@ -11,7 +11,7 @@ modifiable Fragment collections.
 ### Samples
 
 * ViewPager2 with Views - Shows how to setup a ViewPager2 with Views as pages
-* ViewPager2 with Fragments - Shows how to setup a ViewPager2 with as pages
+* ViewPager2 with Fragments - Shows how to setup a ViewPager2 with Fragments as pages
 * ViewPager2 with a Mutable Collection (Views) - Demonstrates usage of a ViewPager2 with Views as pages and mutations in the page adapter
 * ViewPager2 with a Mutable Collection (Fragments) - Demonstrates usage of a ViewPager2 with Fragments as pages and mutations in the page adapter
 * ViewPager2 with a TabLayout (Views) - Shows how to setup a ViewPager2 with Views as pages that is linked to a TabLayout
@@ -28,10 +28,10 @@ suffice for simple use cases, when your pages do not have state that needs to be
 The top level View that you will inflate for your pages must have its `layout_width` and `layout_height` set to
 `match_parent`. If your pages do need to save state across lifecycles, let your adapter implement the
 [StatefulAdapter](https://developer.android.com/reference/androidx/viewpager2/adapter/StatefulAdapter) interface, or
-manage your own state saving (e.g., using [Lifecycle](https://developer.android.com/topic/libraries/architecture/lifecycle)).
+manage your own state saving (e.g., using [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)).
 
 A simple stateless example can be found in
-[CardViewActivity](https://github.com/googlesamples/android-viewpager2/blob/master/app/src/main/java/com/example/androidx/viewpager2/CardViewActivity.kt).
+[CardViewActivity](app/src/main/java/com/example/androidx/viewpager2/CardViewActivity.kt).
 
 <img src="screenshots/viewpager2.png" width="30%" />
 
@@ -48,31 +48,31 @@ Implement their
 as you would do normally.
 
 You can find an example of stateless Fragments in
-[CardFragmentActivity](https://github.com/googlesamples/android-viewpager2/blob/master/app/src/main/java/com/example/androidx/viewpager2/CardFragmentActivity.kt),
+[CardFragmentActivity](app/src/main/java/com/example/androidx/viewpager2/CardFragmentActivity.kt),
 and of stateful Fragments in
-[MutableCollectionFragmentActivity](https://github.com/googlesamples/android-viewpager2/blob/master/app/src/main/java/com/example/androidx/viewpager2/MutableCollectionFragmentActivity.kt).
+[MutableCollectionFragmentActivity](app/src/main/java/com/example/androidx/viewpager2/MutableCollectionFragmentActivity.kt).
 
 <img src="screenshots/viewpager2-mutable-collection.png" width="30%" />
 
 
 ### Working with a TabLayout
 
-With ViewPager, you could link it to a TabLayout by using TabLayout's
+With the original ViewPager, you were able to link it to a TabLayout by using TabLayout's
 [setupWithViewPager](https://developer.android.com/reference/android/support/design/widget/TabLayout.html#setupWithViewPager(android.support.v4.view.ViewPager)).
 With ViewPager2, the integration comes in the form of a mediator, the
-[TabLayoutMediator](https://github.com/googlesamples/android-viewpager2/blob/master/app/src/main/java/com/example/androidx/viewpager2/TabLayoutMediator.java).
+[TabLayoutMediator](app/src/main/java/com/example/androidx/viewpager2/TabLayoutMediator.java).
 Simply create an instance of this class, pass an implementation of its `OnConfigureTabCallback` to the constructor, and
 call `attach()` when you've set your ViewPager2's adapter.
 
 You can find an example of a ViewPager2 that's linked to a TabLayout in
-[CardViewTabLayoutActivity](https://github.com/googlesamples/android-viewpager2/blob/master/app/src/main/java/com/example/androidx/viewpager2/CardViewTabLayoutActivity.kt).
+[CardViewTabLayoutActivity](app/src/main/java/com/example/androidx/viewpager2/CardViewTabLayoutActivity.kt).
 
 <img src="screenshots/viewpager2-tablayout.png" width="30%" />
 
 
 Support
 -------
-You can report issues on ViewPager2 or the samples from this repository [here](https://github.com/googlesamples/android-viewpager2/issues).
+You can report issues on ViewPager2 or the samples from this repository [here](https://b.corp.google.com/issues?q=componentid:561920).
 
 
 License
