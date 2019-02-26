@@ -70,6 +70,27 @@ You can find an example of a ViewPager2 that's linked to a TabLayout in
 <img src="screenshots/viewpager2-tablayout.png" width="30%" />
 
 
+Testing
+-------
+
+Performing UI tests on a ViewPager can be done by performing swipes on the
+ViewPager element, or by calling setCurrentItem on the ViewPager directly.
+Examples can be found in
+[ViewPagerTest](app/src/androidTest/java/com/example/androidx/viewpager2/ViewPagerBaseTest.kt),
+[MutableCollectionTest](app/src/androidTest/java/com/example/androidx/viewpager2/MutableCollectionBaseTest.kt) and
+[TabLayoutTest](app/src/androidTest/java/com/example/androidx/viewpager2/TabLayoutTest.kt).
+
+If you need to wait until a swipe or page transition has finished, there are two
+strategies you can employ: create an IdlingResource that is idle whenever the
+ViewPager's scroll state is idle, or create a CountDownLatch that counts down
+when ViewPager2 transitions to idle. An example of an IdlingResource has been
+implemented in
+[ViewPagerIdleWatcher](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewPagerIdleWatcher.kt).
+
+Some useful Espresso extensions can be found in
+[ViewInteractions](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewInteractions.kt) and
+[ViewPagerActions](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewPagerActions.kt).
+
 Support
 -------
 You can report issues on ViewPager2 or the samples from this repository [here](https://issuetracker.google.com/issues?q=componentid:561920).

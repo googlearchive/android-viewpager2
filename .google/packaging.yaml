@@ -12,7 +12,7 @@ status:       PUBLISHED
 # See http://go/sample-categories
 technologies: [Android]
 categories:   [Getting Started, UI, Jetpack]
-languages:    [Java]
+languages:    [Kotlin]
 solutions:    [Mobile]
 
 # May be omitted if unpublished
