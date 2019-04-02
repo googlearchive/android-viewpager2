@@ -49,6 +49,7 @@ abstract class MutableCollectionBaseActivity : FragmentActivity() {
         buttonGoTo = findViewById(R.id.buttonGoTo)
         buttonRemove = findViewById(R.id.buttonRemove)
         itemSpinner = findViewById(R.id.itemSpinner)
+
         viewPager = findViewById(R.id.viewPager)
 
         viewPager.adapter = createViewPagerAdapter()
@@ -104,7 +105,12 @@ class ItemsViewModel : ViewModel() {
     fun itemId(position: Int): Long = itemToLong(items[position])
     fun contains(itemId: Long): Boolean = items.any { itemToLong(it) == itemId }
     fun addNewAt(position: Int) = items.add(position, longToItem(nextValue++))
-    fun removeAt(position: Int) = items.removeAt(position)
+    fun removeAt(position: Int) {
+        if (position >= 0) {
+            items.removeAt(position)
+        }
+    }
+
     val size: Int get() = items.size
 
     private fun longToItem(value: Long): String = "item#$value"
