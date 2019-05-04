@@ -16,21 +16,17 @@
 
 package androidx.viewpager2.integration.testapp;
 
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_DRAGGING;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_IDLE;
-import static androidx.viewpager2.widget.ViewPager2.SCROLL_STATE_SETTLING;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RestrictTo;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
-
 import com.google.android.material.tabs.TabLayout;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Method;
+
+import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
+import static androidx.viewpager2.widget.ViewPager2.*;
 
 /**
  * A mediator to link a TabLayout with a ViewPager2. The mediator will synchronize the ViewPager2's
@@ -171,7 +167,10 @@ public final class TabLayoutMediator {
             if (adapterCount > 0) {
                 int currItem = mViewPager.getCurrentItem();
                 if (currItem != mTabLayout.getSelectedTabPosition()) {
-                    mTabLayout.getTabAt(currItem).select();
+                    TabLayout.Tab tab = mTabLayout.getTabAt(currItem);
+                    if (tab != null) {
+                        tab.select();
+                    }
                 }
             }
         }
@@ -214,7 +213,7 @@ public final class TabLayoutMediator {
                 // onPageSelected() instead.
                 boolean updateIndicator = !(mScrollState == SCROLL_STATE_SETTLING
                         && mPreviousScrollState == SCROLL_STATE_IDLE);
-                setScrollPosition(tabLayout, position, positionOffset, updateText, updateIndicator);
+                tabLayout.setScrollPosition(position, positionOffset, updateText, updateIndicator);
             }
         }
 
@@ -229,7 +228,7 @@ public final class TabLayoutMediator {
                 boolean updateIndicator = mScrollState == SCROLL_STATE_IDLE
                         || (mScrollState == SCROLL_STATE_SETTLING
                         && mPreviousScrollState == SCROLL_STATE_IDLE);
-                selectTab(tabLayout, tabLayout.getTabAt(position), updateIndicator);
+                tabLayout.selectTab(tabLayout.getTabAt(position), updateIndicator);
             }
         }
 
@@ -237,71 +236,6 @@ public final class TabLayoutMediator {
             mPreviousScrollState = mScrollState = SCROLL_STATE_IDLE;
         }
     }
-
-    // region Reflective calls
-
-    // Temporarily call methods TabLayout.setScrollPosition(int, float, boolean, boolean) and
-    // TabLayout.selectTab(TabLayout.Tab, boolean) through reflection, until they have been made
-    // public in the Material Design Components library.
-
-    private static Method sSetScrollPosition;
-    private static Method sSelectTab;
-    private static final String SET_SCROLL_POSITION_NAME = "TabLayout.setScrollPosition(int, float,"
-            + " boolean, boolean)";
-    private static final String SELECT_TAB_NAME = "TabLayout.selectTab(TabLayout.Tab, boolean)";
-
-    static {
-        try {
-            sSetScrollPosition = TabLayout.class.getDeclaredMethod("setScrollPosition", int.class,
-                    float.class, boolean.class, boolean.class);
-            sSetScrollPosition.setAccessible(true);
-
-            sSelectTab = TabLayout.class.getDeclaredMethod("selectTab", TabLayout.Tab.class,
-                    boolean.class);
-            sSelectTab.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("Can't reflect into method TabLayout"
-                    + ".setScrollPosition(int, float, boolean, boolean)");
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    static void setScrollPosition(TabLayout tabLayout, int position, float positionOffset,
-            boolean updateSelectedText, boolean updateIndicatorPosition) {
-        try {
-            if (sSetScrollPosition != null) {
-                sSetScrollPosition.invoke(tabLayout, position, positionOffset, updateSelectedText,
-                        updateIndicatorPosition);
-            } else {
-                throwMethodNotFound(SET_SCROLL_POSITION_NAME);
-            }
-        } catch (Exception e) {
-            throwInvokeFailed(SET_SCROLL_POSITION_NAME);
-        }
-    }
-
-    @SuppressWarnings("WeakerAccess")
-    static void selectTab(TabLayout tabLayout, TabLayout.Tab tab, boolean updateIndicator) {
-        try {
-            if (sSelectTab != null) {
-                sSelectTab.invoke(tabLayout, tab, updateIndicator);
-            } else {
-                throwMethodNotFound(SELECT_TAB_NAME);
-            }
-        } catch (Exception e) {
-            throwInvokeFailed(SELECT_TAB_NAME);
-        }
-    }
-
-    private static void throwMethodNotFound(String method) {
-        throw new IllegalStateException("Method " + method + " not found");
-    }
-
-    private static void throwInvokeFailed(String method) {
-        throw new IllegalStateException("Couldn't invoke method " + method);
-    }
-
-    // endregion
 
     /**
      * A {@link TabLayout.OnTabSelectedListener} class which contains the necessary calls back to
@@ -331,7 +265,8 @@ public final class TabLayoutMediator {
     }
 
     private class PagerAdapterObserver extends RecyclerView.AdapterDataObserver {
-        PagerAdapterObserver() {}
+        PagerAdapterObserver() {
+        }
 
         @Override
         public void onChanged() {
