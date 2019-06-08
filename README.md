@@ -31,7 +31,7 @@ The top level View that you will inflate for your pages must have its `layout_wi
 manage your own state saving (e.g., using [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)).
 
 A simple stateless example can be found in
-[CardViewActivity](app/src/main/java/com/example/androidx/viewpager2/CardViewActivity.kt).
+[CardViewActivity](app/src/main/java/androidx/viewpager2/integration/testapp/CardViewActivity.kt).
 
 <img src="screenshots/viewpager2.png" width="30%" />
 
@@ -48,9 +48,9 @@ Implement their
 as you would do normally.
 
 You can find an example of stateless Fragments in
-[CardFragmentActivity](app/src/main/java/com/example/androidx/viewpager2/CardFragmentActivity.kt),
+[CardFragmentActivity](app/src/main/java/androidx/viewpager2/integration/testapp/CardFragmentActivity.kt),
 and of stateful Fragments in
-[MutableCollectionFragmentActivity](app/src/main/java/com/example/androidx/viewpager2/MutableCollectionFragmentActivity.kt).
+[MutableCollectionFragmentActivity](app/src/main/java/androidx/viewpager2/integration/testapp/MutableCollectionFragmentActivity.kt).
 
 <img src="screenshots/viewpager2-mutable-collection.png" width="30%" />
 
@@ -60,12 +60,12 @@ and of stateful Fragments in
 With the original ViewPager, you were able to link it to a TabLayout by using TabLayout's
 [setupWithViewPager](https://developer.android.com/reference/android/support/design/widget/TabLayout.html#setupWithViewPager(android.support.v4.view.ViewPager)).
 With ViewPager2, the integration comes in the form of
-[TabLayoutMediator](app/src/main/java/com/example/androidx/viewpager2/TabLayoutMediator.java).
+[TabLayoutMediator](app/src/main/java/androidx/viewpager2/integration/testapp/TabLayoutMediator.java).
 Simply create an instance of this class, pass an implementation of its `OnConfigureTabCallback` to the constructor, and
 call `attach()` when you've set your ViewPager2's adapter.
 
 You can find an example of a ViewPager2 that's linked to a TabLayout in
-[CardViewTabLayoutActivity](app/src/main/java/com/example/androidx/viewpager2/CardViewTabLayoutActivity.kt).
+[CardViewTabLayoutActivity](app/src/main/java/androidx/viewpager2/integration/testapp/CardViewTabLayoutActivity.kt).
 
 <img src="screenshots/viewpager2-tablayout.png" width="30%" />
 
@@ -76,20 +76,20 @@ Testing
 Performing UI tests on a ViewPager can be done by performing swipes on the
 ViewPager element, or by calling setCurrentItem on the ViewPager directly.
 Examples can be found in
-[ViewPagerTest](app/src/androidTest/java/com/example/androidx/viewpager2/ViewPagerBaseTest.kt),
-[MutableCollectionTest](app/src/androidTest/java/com/example/androidx/viewpager2/MutableCollectionBaseTest.kt) and
-[TabLayoutTest](app/src/androidTest/java/com/example/androidx/viewpager2/TabLayoutTest.kt).
+[ViewPagerTest](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/ViewPagerBaseTest.kt),
+[MutableCollectionTest](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/MutableCollectionBaseTest.kt) and
+[TabLayoutTest](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/TabLayoutTest.kt).
 
 If you need to wait until a swipe or page transition has finished, there are two
 strategies you can employ: create an IdlingResource that is idle whenever the
 ViewPager's scroll state is idle, or create a CountDownLatch that counts down
 when ViewPager2 transitions to idle. An example of an IdlingResource has been
 implemented in
-[ViewPagerIdleWatcher](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewPagerIdleWatcher.kt).
+[ViewPagerIdleWatcher](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/util/ViewPagerIdleWatcher.kt).
 
 Some useful Espresso extensions can be found in
-[ViewInteractions](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewInteractions.kt) and
-[ViewPagerActions](app/src/androidTest/java/com/example/androidx/viewpager2/test/ViewPagerActions.kt).
+[ViewInteractions](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/util/ViewInteractions.kt) and
+[ViewPagerActions](app/src/androidTest/java/androidx/viewpager2/integration/testapp/test/util/ViewPagerActions.kt).
 
 Support
 -------
